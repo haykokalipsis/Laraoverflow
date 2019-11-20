@@ -10,6 +10,20 @@
                     <div class="card-body">
                         @forelse($questions as $question)
                             <div class="media">
+                                <div class="d-flex flex-column counters">
+                                    <div class="votes">
+                                        <strong>{{ $question->votes }}</strong> {{ str_plural('vote', $question->votes) }}
+                                    </div>
+
+                                    <div class="status {{ $question->status_attr }}">
+                                        <strong>{{ $question->answers }}</strong> {{ str_plural('answer', $question->answers) }}
+                                    </div>
+
+                                    <div class="views">
+                                        {{ $question->views . ' ' . str_plural('view', $question->views) }}
+                                    </div>
+                                </div>
+
                                 <div class="media-body">
                                     <h3 class="mt-0">
                                         <a href="{{ $question->url_attr }}">{{ $question->title }}</a>
