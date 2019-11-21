@@ -39,7 +39,16 @@
                                         <h3 class="mt-0"><a href="{{ $question->url_attr }}">{{ $question->title }}</a></h3>
 
                                         <div class="ml-auto">
-                                            <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
+{{--                                            <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>--}}
+
+                                            <form action="{{ route('questions.destroy', $question->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure')">Delete</button>
+                                            </form>
+
                                         </div>
                                     </div>
 
