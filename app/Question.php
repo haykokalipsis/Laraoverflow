@@ -23,7 +23,7 @@ class Question extends Model
 
     public function getUrlAttrAttribute()
     {
-        return route('questions.show', $this->id);
+        return route('questions.show', $this->slug);
     }
 
     public function getCreatedDateAttrAttribute()
@@ -42,5 +42,10 @@ class Question extends Model
         }
 
         return 'unanswered';
+    }
+
+    public function getBodyHtmlAttrAttribute()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }
