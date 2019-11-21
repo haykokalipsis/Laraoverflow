@@ -13,6 +13,11 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
     public function index()
     {
         $questions = Question::with(['user'])->latest()->paginate(5);
@@ -60,6 +65,10 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
+//        if (\Gate::denies('update-question', $question))
+//            abort(403, 'Access denied');
+
+        $this->authorize('update', [Question::class, $question]);
         return view('questions.edit', compact('question'));
     }
 
@@ -84,6 +93,11 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+//        if (\Gate::denies('delete-question', $question))
+//            abort(403, 'Access denied');
+
+        $this->authorize('deletes', [Question::class, $question]);
+
         $question->delete();
         return redirect()->route('questions.index')->withSuccess('Your question has been deleted.');
     }

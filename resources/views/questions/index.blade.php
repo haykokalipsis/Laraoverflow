@@ -45,8 +45,13 @@
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure')">Delete</button>
+                                                @can('update', $question)
+                                                    <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>
+                                                @endcan
+
+                                                @can('delete', $question)
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure')">Delete</button>
+                                                @endcan
                                             </form>
 
                                         </div>
