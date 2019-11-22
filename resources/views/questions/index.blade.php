@@ -53,7 +53,6 @@
                                                     <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure')">Delete</button>
                                                 @endcan
                                             </form>
-
                                         </div>
                                     </div>
 
