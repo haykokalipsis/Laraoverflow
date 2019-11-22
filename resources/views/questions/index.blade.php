@@ -25,8 +25,8 @@
                                         <strong>{{ $question->votes }}</strong> {{ str_plural('vote', $question->votes) }}
                                     </div>
 
-                                    <div class="status {{ $question->status_attr }}">
-                                        <strong>{{ $question->answers }}</strong> {{ str_plural('answer', $question->answers) }}
+                                    <div class="status {{ $question->status_getter }}">
+                                        <strong>{{ $question->answers_count }}</strong> {{ str_plural('answer', $question->answers_count) }}
                                     </div>
 
                                     <div class="views">
@@ -36,7 +36,7 @@
 
                                 <div class="media-body">
                                     <div class="d-flex align-items-center">
-                                        <h3 class="mt-0"><a href="{{ $question->url_attr }}">{{ $question->title }}</a></h3>
+                                        <h3 class="mt-0"><a href="{{ $question->url_getter }}">{{ $question->title }}</a></h3>
 
                                         <div class="ml-auto">
 {{--                                            <a class="btn btn-sm btn-outline-info" href="{{ route('questions.edit', $question->id) }}">Edit</a>--}}
@@ -60,8 +60,8 @@
 
                                     <p class="lead">
                                         Asked by
-                                        <a href="{{ $question->user->urlAttr }}">{{ $question->user->name }}</a>
-                                        <small class="text-muted">{{ $question->created_date_attr }}</small>
+                                        <a href="{{ $question->user->url_getter }}">{{ $question->user->name }}</a>
+                                        <small class="text-muted">{{ $question->created_date_getter }}</small>
                                     </p>
 
                                     {{ str_limit($question->body, 250) }}

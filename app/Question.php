@@ -14,6 +14,11 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
     // Accessors & mutators---------------------------------------------------------------------------------------------
     public function setTitleAttribute(String $value)
     {
@@ -21,19 +26,19 @@ class Question extends Model
         $this->attributes['slug'] = str_slug($value);
     }
 
-    public function getUrlAttrAttribute()
+    public function getUrlGetterAttribute()
     {
         return route('questions.show', $this->slug);
     }
 
-    public function getCreatedDateAttrAttribute()
+    public function getCreatedDateGetterAttribute()
     {
         return $this->created_at->diffForHumans();
     }
 
-    public function getStatusAttrAttribute()
+    public function getStatusGetterAttribute()
     {
-        if ($this->answers > 0) {
+        if ($this->answers_count > 0) {
             if ($this->best_answer_id) {
                 return 'answer-accepted';
             }
@@ -44,7 +49,7 @@ class Question extends Model
         return 'unanswered';
     }
 
-    public function getBodyHtmlAttrAttribute()
+    public function getBodyHtmlGetterAttribute()
     {
         return \Parsedown::instance()->text($this->body);
     }

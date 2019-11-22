@@ -56,7 +56,7 @@ class QuestionPolicy
     {
         return
             $user->id === $question->user_id &&
-            $question->answers < 1;
+            $question->answers_count < 1;
     }
 
     /**
