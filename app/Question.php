@@ -61,7 +61,9 @@ class Question extends Model
 
     public function getIsFavouriteGetterAttribute()
     {
-        return $this->isFavorite();
+        return $this->favourites()
+                ->where('user_id', auth()->id())
+                ->count() > 0;
     }
 
     public function getFavouritesCountGetterAttribute()
@@ -74,12 +76,5 @@ class Question extends Model
     {
         $this->best_answer_id = $answer->id;
         $this->save();
-    }
-
-    public function isFavorite()
-    {
-        return $this->favourites()
-            ->where('user_id', auth()->id())
-            ->count() > 0;
     }
 }
