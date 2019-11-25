@@ -22,5 +22,7 @@ class FavouriteController extends Controller
     {
         $question->favourites()->detach(auth()->id());
         return back();
+
+        $user1->voteAnswers()->updateExistingPivot($answer1, ['vote' => -1]);
     }
 }

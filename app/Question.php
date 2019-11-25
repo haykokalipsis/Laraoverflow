@@ -24,6 +24,12 @@ class Question extends Model
         return $this->belongsToMany(User::class, 'favourites')->withTimestamps();
     }
 
+    // Polymorphic Relationships----------------------------------------------------------------------------------------
+    public function votes()
+    {
+        return $this->morphToMany(User::class, 'voteable');
+    }
+
     // Accessors & mutators---------------------------------------------------------------------------------------------
     public function setTitleAttribute(String $value)
     {
@@ -76,5 +82,15 @@ class Question extends Model
     {
         $this->best_answer_id = $answer->id;
         $this->save();
+    }
+
+    public function downVotes()
+    {
+        return $this->votes()->wherePivot('vote', -1);
+    }
+
+    public function upVotes()
+    {
+        return $this->votes()->wherePivot('vote', 1);
     }
 }
