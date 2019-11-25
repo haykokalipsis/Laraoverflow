@@ -19,6 +19,11 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function favourites()
+    {
+        return $this->belongsToMany(User::class, 'favourites')->withTimestamps();
+    }
+
     // Accessors & mutators---------------------------------------------------------------------------------------------
     public function setTitleAttribute(String $value)
     {
@@ -54,10 +59,27 @@ class Question extends Model
         return \Parsedown::instance()->text($this->body);
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    public function getIsFavouriteGetterAttribute()
+    {
+        return $this->isFavorite();
+    }
+
+    public function getFavouritesCountGetterAttribute()
+    {
+        return $this->favourites->count();
+    }
+
+    // Other------------------------------------------------------------------------------------------------------------------
     public function acceptBestAnswer(Answer $answer)
     {
         $this->best_answer_id = $answer->id;
         $this->save();
+    }
+
+    public function isFavorite()
+    {
+        return $this->favourites()
+            ->where('user_id', auth()->id())
+            ->count() > 0;
     }
 }
