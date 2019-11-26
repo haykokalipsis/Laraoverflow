@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="media-body">
-                            {!! $answer->body_html_getter !!}
+                            {!! $answer->excerpt_getter !!}
 
                             <div class="row">
                                 <div class="col-4">

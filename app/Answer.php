@@ -19,16 +19,15 @@ class Answer extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Polymorphic Relationships----------------------------------------------------------------------------------------
-    public function votes()
-    {
-        return $this->morphToMany(User::class, 'voteable');
-    }
-
     // Accessors--------------------------------------------------------------------------------------------------------
     public function getBodyHtmlGetterAttribute()
     {
-        return \Parsedown::instance()->text($this->body);
+        return $this->bodyHtml();
+    }
+
+    public function getExcerptGetterAttribute()
+    {
+        return str_limit(strip_tags($this->bodyHtml()), 250);
     }
 
     public function getCreatedDateGetterAttribute()
@@ -77,13 +76,8 @@ class Answer extends Model
         });
     }
 
-    public function downVotes()
+    private function bodyHtml()
     {
-        return $this->votes()->wherePivot('vote', -1);
-    }
-
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', 1);
+        return \Parsedown::instance()->text($this->body);
     }
 }
