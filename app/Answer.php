@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Voteable;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use Voteable;
+
     protected $fillable = ['body', 'user_id'];
 
     // Relationships----------------------------------------------------------------------------------------------------

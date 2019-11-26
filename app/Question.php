@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Voteable;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    use Voteable;
+
     protected $fillable = ['title', 'body'];
 
     // Relationships----------------------------------------------------------------------------------------------------
@@ -22,12 +25,6 @@ class Question extends Model
     public function favourites()
     {
         return $this->belongsToMany(User::class, 'favourites')->withTimestamps();
-    }
-
-    // Polymorphic Relationships----------------------------------------------------------------------------------------
-    public function votes()
-    {
-        return $this->morphToMany(User::class, 'voteable');
     }
 
     // Accessors & mutators---------------------------------------------------------------------------------------------
@@ -88,17 +85,6 @@ class Question extends Model
         $this->best_answer_id = $answer->id;
         $this->save();
     }
-
-    public function downVotes()
-    {
-        return $this->votes()->wherePivot('vote', -1);
-    }
-
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', 1);
-    }
-
     private function bodyHtml()
     {
         return \Parsedown::instance()->text($this->body);

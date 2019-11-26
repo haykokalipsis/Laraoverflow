@@ -12,62 +12,9 @@
 
                 @foreach($answers as $answer)
                     <div class="media">
-                        <div class="d-flex flex-column vote-controls">
-                            <!-- Vote Up -->
-                            <a
-                                title="This answer is useful"
-                                class="vote-up {{ Auth::guest() ? 'off' : '' }}"
-                                onclick="event.preventDefault(); document.getElementById('up-vote-answer-{{ $answer->id }}').submit();">
-
-                                <i class="fas fa-caret-up fa-3x"></i>
-                            </a>
-
-                            <form action="/answers/{{$answer->id}}/vote" id="up-vote-answer-{{ $answer->id }}" method="post" style="display: none;">
-                                @csrf
-                                <input type="hidden" name="vote" value="1">
-                            </form>
-
-                            <span class="votes-count">{{ $answer->votes_count }}</span>
-                            <!-- Vote Up END -->
-
-                            <!-- Vote Down -->
-                            <a
-                                title="This answer is not useful"
-                                class="vote-down {{ Auth::guest() ? 'off' : '' }}"
-                                onclick="event.preventDefault(); document.getElementById('down-vote-answer-{{ $answer->id }}').submit();">
-
-                                <i class="fas fa-caret-down fa-3x"></i>
-                            </a>
-
-                            <form action="/answers/{{$answer->id}}/vote" id="down-vote-answer-{{ $answer->id }}" method="post" style="display: none;">
-                                @csrf
-                                <input type="hidden" name="vote" value="-1">
-                            </form>
-                            <!-- Vote Down END-->
-
-                            @can('accept', $answer)
-                                <a
-                                    title="Mark this answer as best answer"
-                                    class="mt-2 {{ $answer->status_getter }}"
-                                    onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();">
-
-                                    <i class="fas fa-check fa-3x"></i>
-                                </a>
-
-                                <form action="{{ route('answers.accept', $answer->id) }}" id="accept-answer-{{ $answer->id }}" method="post" style="display: none;">
-                                    @csrf
-                                </form>
-                            @else
-                                @if ($answer->is_best_getter)
-                                    <a
-                                        title="Best answer"
-                                        class="mt-2 {{ $answer->status_getter }}">
-
-                                        <i class="fas fa-check fa-3x"></i>
-                                    </a>
-                                @endif
-                            @endcan
-                        </div>
+                        @include('partials.controls._controls', [
+                            'model' => $answer
+                        ])
 
                         <div class="media-body">
                             {!! $answer->excerpt_getter !!}
@@ -95,17 +42,10 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <span class="text-muted">Answered {{ $answer->created_date_getter }}</span>
-
-                                    <div class="media mt-2">
-                                        <a href="{{ $answer->user->url_getter }}" class="pr-2">
-                                            <img src="{{ $answer->user->avatar_getter }}" alt="">
-                                        </a>
-
-                                        <div class="media-body mt-1">
-                                            <a href="{{ $answer->user->url_getter }}">{{ $answer->user->name }}</a>
-                                        </div>
-                                    </div>
+                                    @include('partials._author', [
+                                        'model' => $answer,
+                                        'label' => 'answered',
+                                    ])
                                 </div>
 
                             </div>
