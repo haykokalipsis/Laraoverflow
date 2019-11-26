@@ -81,6 +81,6 @@ class Answer extends Model
 
     private function bodyHtml()
     {
-        return \Parsedown::instance()->text($this->body);
+        return clean(\Parsedown::instance()->text($this->body));
     }
 }

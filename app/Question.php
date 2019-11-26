@@ -34,6 +34,12 @@ class Question extends Model
         $this->attributes['slug'] = str_slug($value);
     }
 
+// I prefer saving in db original body, and clean only when getting
+//    public function setBodyAttribute($value)
+//    {
+//        $this->attributes['body'] = clean($value);
+//    }
+
     public function getUrlGetterAttribute()
     {
         return route('questions.show', $this->slug);
@@ -59,7 +65,7 @@ class Question extends Model
 
     public function getBodyHtmlGetterAttribute()
     {
-        return $this->bodyHtml();
+        return clean($this->bodyHtml());
     }
 
     public function getExcerptGetterAttribute()
