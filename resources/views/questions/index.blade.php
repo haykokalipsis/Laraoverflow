@@ -70,7 +70,9 @@
                             </div>
                             <hr>
                         @empty
-                            <p>No questions</p>
+                            <div class="alert alert-warning">
+                                <strong>Sorry</strong> There are no questions available.
+                            </div>
                         @endforelse
 
 {{--                            <div class="d-flex">--}}
