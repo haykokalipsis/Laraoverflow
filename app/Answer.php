@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Voteable;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use Voteable;
+
     protected $fillable = ['body', 'user_id'];
 
     // Relationships----------------------------------------------------------------------------------------------------
@@ -17,12 +20,6 @@ class Answer extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    // Polymorphic Relationships----------------------------------------------------------------------------------------
-    public function votes()
-    {
-        return $this->morphToMany(User::class, 'voteable');
     }
 
     // Accessors--------------------------------------------------------------------------------------------------------
@@ -77,13 +74,5 @@ class Answer extends Model
         });
     }
 
-    public function downVotes()
-    {
-        return $this->votes()->wherePivot('vote', -1);
-    }
 
-    public function upVotes()
-    {
-        return $this->votes()->wherePivot('vote', 1);
-    }
 }
