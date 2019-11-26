@@ -25,7 +25,12 @@ class Answer extends Model
     // Accessors--------------------------------------------------------------------------------------------------------
     public function getBodyHtmlGetterAttribute()
     {
-        return \Parsedown::instance()->text($this->body);
+        return $this->bodyHtml();
+    }
+
+    public function getExcerptGetterAttribute()
+    {
+        return str_limit(strip_tags($this->bodyHtml()), 250);
     }
 
     public function getCreatedDateGetterAttribute()
@@ -74,5 +79,8 @@ class Answer extends Model
         });
     }
 
-
+    private function bodyHtml()
+    {
+        return \Parsedown::instance()->text($this->body);
+    }
 }
