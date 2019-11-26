@@ -95,17 +95,10 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <span class="text-muted">Answered {{ $answer->created_date_getter }}</span>
-
-                                    <div class="media mt-2">
-                                        <a href="{{ $answer->user->url_getter }}" class="pr-2">
-                                            <img src="{{ $answer->user->avatar_getter }}" alt="">
-                                        </a>
-
-                                        <div class="media-body mt-1">
-                                            <a href="{{ $answer->user->url_getter }}">{{ $answer->user->name }}</a>
-                                        </div>
-                                    </div>
+                                    @include('partials._author', [
+                                        'model' => $answer,
+                                        'label' => 'answered',
+                                    ])
                                 </div>
 
                             </div>

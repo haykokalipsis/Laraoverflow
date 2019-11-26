@@ -75,17 +75,15 @@
                             <div class="media-body">
                                 {!! $question->body_html_getter !!}
 
-                                <div class="float-right">
-                                    <span class="text-muted">Answered {{ $question->created_date_getter }}</span>
+                                <div class="row">
+                                    <div class="col-4"></div>
+                                    <div class="col-4"></div>
+                                    <div class="col-4">
+                                        @include('partials._author', [
+                                            'model' => $question,
+                                            'label' => 'asked'
+                                        ])
 
-                                    <div class="media mt-2">
-                                        <a href="{{ $question->user->url_getter }}" class="pr-2">
-                                            <img src="{{ $question->user->avatar_getter }}" alt="">
-                                        </a>
-
-                                        <div class="media-body mt-1">
-                                            <a href="{{ $question->user->url_getter }}">{{ $question->user->name }}</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
