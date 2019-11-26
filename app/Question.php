@@ -62,7 +62,12 @@ class Question extends Model
 
     public function getBodyHtmlGetterAttribute()
     {
-        return \Parsedown::instance()->text($this->body);
+        return $this->bodyHtml();
+    }
+
+    public function getExcerptGetterAttribute()
+    {
+        return str_limit(strip_tags($this->bodyHtml()), 250);
     }
 
     public function getIsFavouriteGetterAttribute()
@@ -92,5 +97,10 @@ class Question extends Model
     public function upVotes()
     {
         return $this->votes()->wherePivot('vote', 1);
+    }
+
+    private function bodyHtml()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }
