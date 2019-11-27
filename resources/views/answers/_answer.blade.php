@@ -24,17 +24,21 @@
                 </div>
             </div>
 
+            <div class="col-4"></div>
             <div class="col-4">
+{{--                @include('partials._author', [--}}
+{{--                    'model' => $answer,--}}
+{{--                    'label' => 'answered',--}}
+{{--                ])--}}
 
+                <!-- user-info component-->
+                <user-info-component
+                    :model="{{ $answer }}"
+                    label="answered">
+
+                </user-info-component>
+                <!-- user-info component END-->
             </div>
-
-            <div class="col-4">
-                @include('partials._author', [
-                    'model' => $answer,
-                    'label' => 'answered',
-                ])
-            </div>
-
         </div>
 
     </div>

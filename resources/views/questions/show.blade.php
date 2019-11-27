@@ -31,11 +31,19 @@
                                     <div class="col-4"></div>
                                     <div class="col-4"></div>
                                     <div class="col-4">
-                                        @include('partials._author', [
-                                            'model' => $question,
-                                            'label' => 'asked'
-                                        ])
 
+{{--                                        @include('partials._author', [--}}
+{{--                                            'model' => $question,--}}
+{{--                                            'label' => 'asked'--}}
+{{--                                        ])--}}
+
+                                        <!-- user-info component -->
+                                        <user-info-component
+                                            :model="{{ $question }}"
+                                            label="asked">
+
+                                        </user-info-component>
+                                        <!-- user-info component END-->
                                     </div>
                                 </div>
                             </div>

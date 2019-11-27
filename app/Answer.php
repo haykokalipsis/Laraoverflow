@@ -10,6 +10,7 @@ class Answer extends Model
     use Voteable;
 
     protected $fillable = ['body', 'user_id'];
+    protected $appends = ['created_date_getter'];
 
     // Relationships----------------------------------------------------------------------------------------------------
     public function question()

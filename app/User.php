@@ -38,6 +38,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['url_getter', 'avatar_getter'];
+
     // Relationships--------------------------------------------------------------------------------------------------------
     public function questions()
     {
@@ -72,6 +74,12 @@ class User extends Authenticatable
         $size = 32;
 
         return  "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
+    }
+
+    public function getUrlGetterAttribute()
+    {
+        // return route("questions.show", $this->id);
+        return '#';
     }
 
     // Other------------------------------------------------------------------------------------------------------------
