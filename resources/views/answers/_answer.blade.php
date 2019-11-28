@@ -4,7 +4,7 @@
     ])
 
     <div class="media-body">
-        {!! $answer->excerpt_getter !!}
+        {!! $answer->full_body_html_getter !!}
 
         <div class="row">
             <div class="col-4">

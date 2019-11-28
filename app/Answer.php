@@ -23,14 +23,14 @@ class Answer extends Model
     }
 
     // Accessors--------------------------------------------------------------------------------------------------------
-    public function getBodyHtmlGetterAttribute()
+    public function getFullBodyHtmlGetterAttribute()
     {
         return $this->bodyHtml();
     }
 
-    public function getExcerptGetterAttribute()
+    public function getExcerptBodyHtmlGetterAttribute()
     {
-        return str_limit(strip_tags($this->bodyHtml()), 250);
+        return str_limit(strip_tags($this->bodyHtml()), 150);
     }
 
     public function getCreatedDateGetterAttribute()
@@ -47,6 +47,7 @@ class Answer extends Model
     {
         return $this->isBest();
     }
+
     // Other-----------------------------------------------------------------------------------------------------------------
     public function isBest()
     {

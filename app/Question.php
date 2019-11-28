@@ -63,12 +63,12 @@ class Question extends Model
         return 'unanswered';
     }
 
-    public function getBodyHtmlGetterAttribute()
+    public function getFullBodyHtmlGetterAttribute()
     {
         return clean($this->bodyHtml());
     }
 
-    public function getExcerptGetterAttribute()
+    public function getExcerptBodyHtmlGetterAttribute()
     {
         return str_limit(strip_tags($this->bodyHtml()), 250);
     }

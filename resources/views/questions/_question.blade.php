@@ -43,7 +43,7 @@
         </p>
 
         <div class="excerpt">
-            {{ $question->excerpt_getter }}
+            {{ $question->excerpt_body_html_getter }}
         </div>
     </div>
 </div>
