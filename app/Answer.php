@@ -10,7 +10,7 @@ class Answer extends Model
     use Voteable;
 
     protected $fillable = ['body', 'user_id'];
-    protected $appends = ['created_date_getter'];
+    protected $appends = ['created_date_getter', 'full_body_html_getter'];
 
     // Relationships----------------------------------------------------------------------------------------------------
     public function question()
@@ -24,12 +24,12 @@ class Answer extends Model
     }
 
     // Accessors--------------------------------------------------------------------------------------------------------
-    public function getBodyHtmlGetterAttribute()
+    public function getFullBodyHtmlGetterAttribute()
     {
         return $this->bodyHtml();
     }
 
-    public function getExcerptGetterAttribute()
+    public function getExcerptBodyHtmlGetterAttribute()
     {
         return str_limit(strip_tags($this->bodyHtml()), 250);
     }
@@ -75,9 +75,9 @@ class Answer extends Model
             // $answer->question->decrement('answers_count');
         });
 
-        static::saved(function ($answer) {
-            echo "Answer saved\n";
-        });
+//        static::saved(function ($answer) {
+//            echo "Answer saved\n";
+//        });
     }
 
     private function bodyHtml()

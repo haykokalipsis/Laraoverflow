@@ -11,6 +11,7 @@ class Question extends Model
 
     protected $fillable = ['title', 'body'];
     protected $appends = ['created_date_getter'];
+
     // Relationships----------------------------------------------------------------------------------------------------
     public function user()
     {
@@ -91,6 +92,7 @@ class Question extends Model
         $this->best_answer_id = $answer->id;
         $this->save();
     }
+
     private function bodyHtml()
     {
         return \Parsedown::instance()->text($this->body);

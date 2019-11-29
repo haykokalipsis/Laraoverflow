@@ -56,6 +56,13 @@ class AnswerController extends Controller
             'body' => 'required'
         ]));
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been updated.',
+                'bodyHtml' => $answer->full_body_html_getter,
+            ], 200);
+        }
+
         return redirect()->route('questions.show', $question->slug)->withSuccess('Your answer has been updated.');
     }
 
@@ -65,12 +72,19 @@ class AnswerController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
         // Question here is useless, but i leave it to follow uri pattern
 
         $this->authorize('delete', $answer);
         $answer->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been deleted'
+            ]);
+        }
+
         return redirect()->back()->withSuccess('Your answer has been deleted');
     }
 
