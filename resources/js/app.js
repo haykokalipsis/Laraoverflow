@@ -16,6 +16,15 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Vue from 'vue';
+import VueIziToast from 'vue-izitoast';
+
+import 'izitoast/dist/css/iziToast.min.css';
+
+Vue.use(VueIziToast);
+// or
+// Vue.use(VueIziToast, defaultOptionsObject);
+
 Vue.component('user-info-component', require('./components/UserInfo.vue'));
 Vue.component('answer-component', require('./components/Answer.vue'));
 
