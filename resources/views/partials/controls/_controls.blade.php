@@ -21,9 +21,7 @@
 
     <!-- Favourite the question or accept best answer-->
     @if ($model instanceof App\Question)
-        @include('partials.controls._favourite', [
-            'question' => $model
-        ])
+        <favourite-component :question="{{ $model }}"></favourite-component>
     @elseif ($model instanceof App\Answer)
         @include('partials.controls._accept', [
             'answer' => $model
