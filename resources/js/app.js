@@ -18,12 +18,14 @@ window.Vue = require('vue');
 
 import Vue from 'vue';
 
-require('./izitoast');
-require('./policies');
+require ('./izitoast.js');
+require ('./policies.js');
 
 Vue.component('user-info-component', require('./components/UserInfo.vue'));
 Vue.component('answer-component', require('./components/Answer.vue'));
 Vue.component('favourite-component', require('./components/Favourite.vue'));
+Vue.component('accept-component', require('./components/Accept.vue'));
+Vue.component('vote-component', require('./components/Vote.vue'));
 
 const app = new Vue({
     el: '#app'

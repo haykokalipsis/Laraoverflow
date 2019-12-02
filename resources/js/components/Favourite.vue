@@ -43,6 +43,9 @@
 
         methods: {
             onToggle() {
+                if (this.fetching)
+                    return;
+
                 if (! this.signedIn) {
                     this.$toast.warning('Please login to favourite this question', 'Warning', {
                         timeout: 3000,
