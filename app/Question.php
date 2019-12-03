@@ -10,7 +10,7 @@ class Question extends Model
     use Voteable;
 
     protected $fillable = ['title', 'body'];
-    protected $appends = ['created_date_getter', 'is_favourite_getter', 'favourites_count_getter'];
+    protected $appends = ['created_date_getter', 'is_favourite_getter', 'favourites_count_getter', 'body_html_getter'];
 
     // Relationships----------------------------------------------------------------------------------------------------
     public function user()

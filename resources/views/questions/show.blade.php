@@ -2,59 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center">
-                                <h1>{{ $question->title }}</h1>
-
-                                <div class="ml-auto">
-                                    <a href="{{ route('questions.index') }}" class="btn btn-outline-secondary">Back to all questions</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="media">
-
-                            <controls-component :model="{{ $question }}" name="question"></controls-component>
-
-                            <!-- Question Body -->
-                            <div class="media-body">
-                                {!! $question->body_html_getter !!}
-
-                                <div class="row">
-                                    <div class="col-4"></div>
-                                    <div class="col-4"></div>
-                                    <div class="col-4">
-
-{{--                                        @include('partials._author', [--}}
-{{--                                            'model' => $question,--}}
-{{--                                            'label' => 'asked'--}}
-{{--                                        ])--}}
-
-                                        <!-- user-info component -->
-                                        <user-info-component
-                                            :model="{{ $question }}"
-                                            label="asked">
-
-                                        </user-info-component>
-                                        <!-- user-info component END-->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Question Body END -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <question-component :question="{{ $question }}"></question-component>
         <answers-component :question="{{ $question }}"></answers-component>
-
     </div>
 @endsection

@@ -16,9 +16,9 @@
                     </div>
 
                     <div class="card-body">
-                    @include('partials._flash-messages-new')
+                        @include('partials._flash-messages-new')
 
-                    @forelse($questions as $question)
+                        @forelse($questions as $question)
                             @include('questions._question')
                         @empty
                             <div class="alert alert-warning">
@@ -32,9 +32,9 @@
 {{--                                </div>--}}
 {{--                            </div>--}}
 
-                            <div class="d-flex justify-content-center mt-3">
-                                {{ $questions->links() }}
-                            </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $questions->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,6 @@
                 </div>
 
                 <button type="button" @click="cancel()">Cancel</button>
-<!--                                <button type="submit" @click="editing = false">Update</button>-->
                 <input type="submit" value="Update Input" :disabled="isInvalid">
             </form>
 
@@ -20,7 +19,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="ml-auto">
-                            <a v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
+                            <button v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</button>
                             <button v-if="authorize('modify', answer)" @click.prevent="onDestroy" class="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
                     </div>

@@ -27,6 +27,7 @@ Vue.component('answers-component', require('./components/Answers.vue'));
 Vue.component('favourite-component', require('./components/Favourite.vue'));
 Vue.component('accept-component', require('./components/Accept.vue'));
 Vue.component('vote-component', require('./components/Vote.vue'));
+Vue.component('question-component', require('./components/Question.vue'));
 
 const app = new Vue({
     el: '#app'

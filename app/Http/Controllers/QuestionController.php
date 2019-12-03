@@ -82,6 +82,14 @@ class QuestionController extends Controller
     public function update(AskQuestionRequest $request, Question $question)
     {
         $question->update($request->only(['title', 'body']));
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your question has been updated.',
+                'bodyHtml' => $question->body_html_getter,
+            ], 200);
+        }
+
         return redirect()->route('questions.index')->with('success', 'Your question has been updated.');
     }
 
@@ -97,6 +105,12 @@ class QuestionController extends Controller
 //            abort(403, 'Access denied');
 
         $this->authorize('deletes', [Question::class, $question]);
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Your question has been deleted.',
+            ], 200);
+        }
 
         $question->delete();
         return redirect()->route('questions.index')->withSuccess('Your question has been deleted.');
