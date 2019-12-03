@@ -9,7 +9,9 @@
 
                     <hr>
 
-                    <answer v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
+                    <answer v-for="(answer, index) in answers" :key="answer.id"
+                            :answer="answer" @deleted="remove(index)">
+                    </answer>
 
                     <div class="text-center mt-3" v-if="nextUrl">
                         <button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more answers</button>
@@ -57,6 +59,11 @@
                         this.answers.push(...data.data);
                         this.nextUrl = data.next_page_url;
                     })
+            },
+
+            remove(index) {
+                this.answers.splice(index, 1);
+                this.count--;
             }
         }
     }

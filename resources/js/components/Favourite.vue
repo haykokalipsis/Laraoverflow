@@ -2,8 +2,7 @@
     <a
         :class="classes"
         title="Click to mark as favourite question (Click again to undo)"
-        @click.prevent="onToggle"
-        :disabled="fetching">
+        @click.prevent="onToggle">
 
         <i class="fas fa-star fa-3x"></i>
         <span class="favourites-count">{{ favouritesCount }}</span>
