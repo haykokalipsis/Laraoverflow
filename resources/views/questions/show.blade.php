@@ -56,8 +56,5 @@
 
         <answers-component :question="{{ $question }}"></answers-component>
 
-        @auth()
-            @include('answers._create')
-        @endauth
     </div>
 @endsection

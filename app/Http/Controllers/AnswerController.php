@@ -15,7 +15,7 @@ class AnswerController extends Controller
 
     public function index(Question $question)
     {
-        return $question->answers()->with('user')->simplePaginate(2);
+        return $question->answers()->with('user')->simplePaginate(1);
     }
 
     /**
@@ -30,10 +30,17 @@ class AnswerController extends Controller
             'body' => 'required'
         ]);
 
-        $question->answers()->create([
+        $answer = $question->answers()->create([
             'body' => $request->input('body'),
             'user_id' => auth()->id()
         ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been submitted successfully.',
+                'answer' => $answer->load('user')
+            ], 200);
+        }
 
         return redirect()->back()->with('success', 'Your answer has been submitted successfully.');
     }
