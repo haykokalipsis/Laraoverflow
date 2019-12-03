@@ -1,8 +1,7 @@
 <answer-component :answer="{{ $answer }}" inline-template>
     <div class="media post">
-        @include('partials.controls._controls', [
-            'model' => $answer
-        ])
+
+        <controls-component :model="{{ $answer }}" name="answer"></controls-component>
 
         <div class="media-body">
             <form @submit.prevent="onUpdate" v-if="editing">

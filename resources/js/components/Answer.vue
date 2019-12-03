@@ -1,3 +1,46 @@
+<template>
+    <div class="media post">
+
+        <controls-component :model="answer" name="answer"></controls-component>
+
+        <div class="media-body">
+            <form @submit.prevent="onUpdate" v-if="editing">
+                <div class="form-group">
+                    <textarea rows="10" class="form-control" v-model="body"></textarea>
+                </div>
+
+                <button type="button" @click="cancel()">Cancel</button>
+<!--                                <button type="submit" @click="editing = false">Update</button>-->
+                <input type="submit" value="Update Input" :disabled="isInvalid">
+            </form>
+
+            <template v-else>
+                <div v-html="bodyHtml"></div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <div class="ml-auto">
+                            <a v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
+                            <button v-if="authorize('modify', answer)" @click.prevent="onDestroy" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <!-- user-info component-->
+                        <user-info-component
+                            :model="answer"
+                            label="answered">
+                        </user-info-component>
+                        <!-- user-info component END-->
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+</template>
+
 <script>
     export default {
         name: "Answer",

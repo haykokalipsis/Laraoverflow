@@ -32,6 +32,7 @@
         data() {
             return {
                 count: this.model.votes_count,
+                signedIn: window.Auth.signedIn
             }
         },
 

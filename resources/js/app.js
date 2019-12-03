@@ -21,8 +21,9 @@ import Vue from 'vue';
 require ('./izitoast.js');
 require ('./policies.js');
 
+Vue.component('controls-component', require('./components/Controls.vue'));
 Vue.component('user-info-component', require('./components/UserInfo.vue'));
-Vue.component('answer-component', require('./components/Answer.vue'));
+Vue.component('answers-component', require('./components/Answers.vue'));
 Vue.component('favourite-component', require('./components/Favourite.vue'));
 Vue.component('accept-component', require('./components/Accept.vue'));
 Vue.component('vote-component', require('./components/Vote.vue'));

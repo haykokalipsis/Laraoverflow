@@ -19,9 +19,8 @@
                         <hr>
 
                         <div class="media">
-                            @include('partials.controls._controls', [
-                                'model' => $question
-                            ])
+
+                            <controls-component :model="{{ $question }}" name="question"></controls-component>
 
                             <!-- Question Body -->
                             <div class="media-body">
@@ -55,10 +54,7 @@
             </div>
         </div>
 
-        @include('answers._index', [
-            'answers' => $question->answers,
-            'answers_count' => $question->answers_count
-        ])
+        <answers-component :question="{{ $question }}"></answers-component>
 
         @auth()
             @include('answers._create')
