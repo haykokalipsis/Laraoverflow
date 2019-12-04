@@ -19,15 +19,12 @@ window.Vue = require('vue');
 import Vue from 'vue';
 
 require ('./izitoast.js');
-require ('./policies.js');
 
-Vue.component('controls-component', require('./components/Controls.vue'));
-Vue.component('user-info-component', require('./components/UserInfo.vue'));
-Vue.component('answers-component', require('./components/Answers.vue'));
-Vue.component('favourite-component', require('./components/Favourite.vue'));
-Vue.component('accept-component', require('./components/Accept.vue'));
-Vue.component('vote-component', require('./components/Vote.vue'));
-Vue.component('question-component', require('./components/Question.vue'));
+import Authorization from './authorization/authorize';
+
+Vue.use(Authorization);
+
+Vue.component('question-page', require('./pages/QuestionPage.vue'));
 
 const app = new Vue({
     el: '#app'

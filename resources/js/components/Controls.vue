@@ -17,7 +17,9 @@
 </template>
 
 <script>
-    // import favourite'./fav'
+    import FavouriteComponent from "../components/Favourite";
+    import AcceptComponent from "../components/Accept";
+    import VoteComponent from "../components/Vote";
 
     export default {
         name: "Controls",
@@ -35,6 +37,12 @@
                 if (this.name === 'answer') return 'answers';
             }
         },
+
+        components: {
+            FavouriteComponent,
+            AcceptComponent,
+            VoteComponent
+        }
     }
 </script>
 

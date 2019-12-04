@@ -27,7 +27,7 @@
                 <div class="card-body" v-else>
                     <div class="card-title">
                         <div class="d-flex align-items-center">
-                            <h1>{{ question.title }}</h1>
+                            <h1>{{ title }}</h1>
 
                             <div class="ml-auto">
                                 <a href="/questions" class="btn btn-outline-secondary">Back to all questions</a>
@@ -50,7 +50,7 @@
                                 <div class="col-4">
                                     <div class="ml-auto">
                                         <button v-if="authorize('modify', question)" @click.prevent="onEdit" class="btn btn-sm btn-outline-info">Edit</button>
-                                        <button v-if="authorize('modify', question)" @click.prevent="onDestroy" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        <button v-if="authorize('deleteQuestion', question)" @click.prevent="onDestroy" class="btn btn-sm btn-outline-danger">Delete</button>
                                     </div>
                                 </div>
                                 <div class="col-4"></div>
@@ -76,6 +76,9 @@
 </template>
 
 <script>
+    import ControlsComponent from "../components/Controls";
+    import UserInfoComponent from "../components/UserInfo";
+
     export default {
         name: "Question",
         props: ['question'],
@@ -112,7 +115,6 @@
             },
 
             cancel() {
-                alert('cancelled');
                 this.body = this.beforeEditCache.body;
                 this.title = this.beforeEditCache.title;
                 this.editing = false;
@@ -125,6 +127,8 @@
                 })
                     .then( ({data}) => {
                         this.bodyHtml = data.bodyHtml;
+                        this.question.title = data.title;
+                        // alert(this.title);
                         this.$toast.success(data.message, 'Success', {timeout: 3000});
                         this.editing = false;
                     })
@@ -168,6 +172,11 @@
 
                 });
             },
+        },
+
+        components: {
+            ControlsComponent,
+            UserInfoComponent
         }
     }
 </script>

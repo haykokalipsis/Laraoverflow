@@ -13,6 +13,7 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['index', 'show']]);
@@ -86,6 +87,7 @@ class QuestionController extends Controller
         if ($request->expectsJson()) {
             return response()->json([
                 'message' => 'Your question has been updated.',
+                'title' => $question->title,
                 'bodyHtml' => $question->body_html_getter,
             ], 200);
         }

@@ -4,7 +4,7 @@
         <a
             :title="`This  ${name} is useful`"
             @click.prevent="voteUp"
-            :class="['vote-up', {'off' : authorize('vote', model) }]">
+            :class="['vote-up', {'off' : signedIn }]">
 
             <i class="fas fa-caret-up fa-3x"></i>
         </a>
@@ -16,7 +16,7 @@
         <a
             :title="`This  ${name} is not useful`"
             @click.prevent="voteDown"
-            :class="['vote-down', { 'off' : authorize('vote', model) }]">
+            :class="['vote-down', { 'off' : signedIn }]">
 
             <i class="fas fa-caret-down fa-3x"></i>
         </a>
@@ -31,8 +31,7 @@
 
         data() {
             return {
-                count: this.model.votes_count || 0,
-                signedIn: window.Auth.signedIn
+                count: this.model.votes_count || 0
             }
         },
 
@@ -53,7 +52,7 @@
 
             _vote(vote) {
                 if ( ! this.signedIn) {
-                    this.$toast.warning(`Please login to vote the ${name}`, 'Warning', {
+                    this.$toast.warning(`Please login to vote the ${this.name}`, 'Warning', {
                         timeout: 3000,
                         position: 'bottomLeft'
                     });

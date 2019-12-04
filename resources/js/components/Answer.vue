@@ -41,6 +41,9 @@
 </template>
 
 <script>
+    import ControlsComponent from '../components/Controls';
+    import UserInfoComponent from '../components/UserInfo';
+
     export default {
         name: "Answer",
         props: ['answer'],
@@ -120,6 +123,11 @@
                 this.body = this.beforeEditCache;
                 this.editing = false;
             }
+        },
+
+        components: {
+            ControlsComponent,
+            UserInfoComponent
         }
     }
 </script>
