@@ -15,14 +15,22 @@ class FavouriteController extends Controller
     public function store(Question $question)
     {
         $question->favourites()->attach(auth()->id());
+
+        if (request()->expectsJson()) {
+            return response()->json(null, 204);
+        }
+
         return back();
     }
 
     public function destroy(Question $question)
     {
         $question->favourites()->detach(auth()->id());
-        return back();
 
-        $user1->voteAnswers()->updateExistingPivot($answer1, ['vote' => -1]);
+        if (request()->expectsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return back();
     }
 }

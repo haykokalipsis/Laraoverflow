@@ -10,6 +10,7 @@ class Question extends Model
     use Voteable;
 
     protected $fillable = ['title', 'body'];
+    protected $appends = ['created_date_getter', 'is_favourite_getter', 'favourites_count_getter', 'full_body_html_getter'];
 
     // Relationships----------------------------------------------------------------------------------------------------
     public function user()
@@ -91,6 +92,7 @@ class Question extends Model
         $this->best_answer_id = $answer->id;
         $this->save();
     }
+
     private function bodyHtml()
     {
         return \Parsedown::instance()->text($this->body);

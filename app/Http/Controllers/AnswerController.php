@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
+
+    public function index(Question $question)
+    {
+        return $question->answers()->with('user')->simplePaginate(1);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -20,10 +30,17 @@ class AnswerController extends Controller
             'body' => 'required'
         ]);
 
-        $question->answers()->create([
+        $answer = $question->answers()->create([
             'body' => $request->input('body'),
             'user_id' => auth()->id()
         ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been submitted successfully.',
+                'answer' => $answer->load('user')
+            ], 200);
+        }
 
         return redirect()->back()->with('success', 'Your answer has been submitted successfully.');
     }
@@ -56,6 +73,13 @@ class AnswerController extends Controller
             'body' => 'required'
         ]));
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been updated.',
+                'bodyHtml' => $answer->full_body_html_getter,
+            ], 200);
+        }
+
         return redirect()->route('questions.show', $question->slug)->withSuccess('Your answer has been updated.');
     }
 
@@ -65,12 +89,19 @@ class AnswerController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
         // Question here is useless, but i leave it to follow uri pattern
 
         $this->authorize('delete', $answer);
         $answer->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Your answer has been deleted'
+            ]);
+        }
+
         return redirect()->back()->withSuccess('Your answer has been deleted');
     }
 
@@ -78,6 +109,13 @@ class AnswerController extends Controller
     {
         $this->authorize('accept', $answer);
         $answer->question->acceptBestAnswer($answer);
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'You have accepted this answer as best answer'
+            ], 200);
+        }
+
         return redirect()->back();
     }
 }

@@ -9,15 +9,13 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/prismjs-themes/prism.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -77,6 +75,16 @@
         </main>
     </div>
 
+
+    <!-- Scripts -->
+    <script>
+        window.Auth = {!! json_encode([
+            'signedIn' => Auth::check(),
+            'user' => Auth::user()
+        ]) !!}
+    </script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://kit.fontawesome.com/a32c3f51b4.js" crossorigin="anonymous"></script>
 </body>
 </html>

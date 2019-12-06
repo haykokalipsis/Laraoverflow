@@ -16,7 +16,15 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import Vue from 'vue';
+
+require ('./izitoast.js');
+
+import Authorization from './authorization/authorize';
+
+Vue.use(Authorization);
+
+Vue.component('question-page', require('./pages/QuestionPage.vue'));
 
 const app = new Vue({
     el: '#app'
