@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <form @submit.prevent="onUpdate" class="card-body" v-if="editing">
+                <form @submit.prevent="onUpdate" class="card-body" v-show="authorize('modify', question) && editing">
                     <div class="card-title">
                         <input type="text" class="form-control form-control-lg" v-model="title">
                     </div>
@@ -13,10 +13,14 @@
                         <!-- Question Body -->
                         <div class="media-body">
                             <div class="form-group">
-                                <textarea rows="10" class="form-control" v-model="body"></textarea>
+                                <!-- MEditor -->
+                                <m-editor :body="body" :name="uniqueName">
+                                    <textarea rows="10" class="form-control" v-model="body"></textarea>
+                                </m-editor>
+                                <!-- MEditor END-->
                             </div>
 
-                            <button type="button" @click.prevent="cancel">Cancel</button>
+                            <button type="button" @click.prevent="onCancel">Cancel</button>
                             <input type="submit" value="Update Input" :disabled="isInvalid">
                         </div>
                         <!-- Question Body END -->
@@ -24,7 +28,7 @@
                     </div>
                 </form>
 
-                <div class="card-body" v-else>
+                <div class="card-body" v-show="!editing">
                     <div class="card-title">
                         <div class="d-flex align-items-center">
                             <h1>{{ title }}</h1>
@@ -43,8 +47,7 @@
 
                         <!-- Question Body -->
                         <div class="media-body">
-
-                            <div v-html="bodyHtml"></div>
+                            <div v-html="bodyHtml" ref="bodyHtml"></div>
 
                             <div class="row">
                                 <div class="col-4">
@@ -78,6 +81,8 @@
 <script>
     import ControlsComponent from "../components/Controls";
     import UserInfoComponent from "../components/UserInfo";
+    import MEditor from "./MEditor";
+    import Prism from 'prismjs';
 
     export default {
         name: "Question",
@@ -85,10 +90,10 @@
 
         data() {
             return {
+                editing: false,
                 title: this.question.title,
                 body: this.question.body,
                 bodyHtml: this.question.body_html_getter,
-                editing: false,
                 id: this.question.id,
                 beforeEditCache: {}
             }
@@ -101,26 +106,50 @@
 
             endpoint() {
                 return `/questions/${this.id}`;
+            },
+
+            uniqueName() {
+                return `answer-${this.id}`;
             }
         },
 
         methods: {
-            onEdit() {
+            setEditCache() {
                 this.beforeEditCache = {
-                    body: this.body,
-                    title: this.title
+                    title: this.title,
+                    body: this.body
                 };
+            },
 
+            restoreFromEditCache() {
+                this.body = this.beforeEditCache.body;
+                this.title = this.beforeEditCache.title;
+            },
+
+            highlight(id = '') {
+                let el;
+
+                if ( ! id)
+                    el = this.$refs.bodyHtml;
+                else
+                    el = document.getElementById(id);
+
+                console.log(el);
+                Prism.highlightAllUnder(el);
+            },
+
+            onEdit() {
+                this.setEditCache();
                 this.editing = true;
             },
 
-            cancel() {
-                this.body = this.beforeEditCache.body;
-                this.title = this.beforeEditCache.title;
+            onCancel() {
+                this.restoreFromEditCache();
                 this.editing = false;
             },
 
             onUpdate() {
+
                 axios.put(this.endpoint, {
                     body: this.body,
                     title: this.title
@@ -128,10 +157,11 @@
                     .then( ({data}) => {
                         this.bodyHtml = data.bodyHtml;
                         this.question.title = data.title;
-                        // alert(this.title);
+
                         this.$toast.success(data.message, 'Success', {timeout: 3000});
                         this.editing = false;
                     })
+                    .then ( () => this.highlight())
                     .catch( ({response}) => {
                         this.$toast.error(response.data.message, 'Error', {timeout: 3000});
                         this.editing = false;
@@ -176,7 +206,8 @@
 
         components: {
             ControlsComponent,
-            UserInfoComponent
+            UserInfoComponent,
+            MEditor
         }
     }
 </script>

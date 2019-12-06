@@ -9,7 +9,9 @@
 
                     <form @submit.prevent="onCreate">
                         <div class="form-group">
-                            <textarea name="body" id="" rows="7" required class="form-control" v-model="body"></textarea>
+                            <m-editor :body="body" name="new-answer">
+                                <textarea name="body" id="" rows="7" required class="form-control" v-model="body"></textarea>
+                            </m-editor>
                         </div>
 
                         <div class="form-group">
@@ -23,6 +25,8 @@
 </template>
 
 <script>
+    import MEditor from "./MEditor";
+
     export default {
         name: "NewAnswer",
         props: ['questionId'],
@@ -56,6 +60,10 @@
                         });
                     });
             }
+        },
+
+        components: {
+            MEditor
         }
     }
 </script>

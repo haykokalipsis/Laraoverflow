@@ -4,22 +4,24 @@
         <controls-component :model="answer" name="answer"></controls-component>
 
         <div class="media-body">
-            <form @submit.prevent="onUpdate" v-if="editing">
+            <form @submit.prevent="onUpdate" v-show="authorize('modify', answer) && editing">
                 <div class="form-group">
-                    <textarea rows="10" class="form-control" v-model="body"></textarea>
+                    <m-editor :body="body" :name="uniqueName">
+                        <textarea rows="10" class="form-control" v-model="body"></textarea>
+                    </m-editor>
                 </div>
 
-                <button type="button" @click="cancel()">Cancel</button>
+                <button type="button" @click="onCancel">Cancel</button>
                 <input type="submit" value="Update Input" :disabled="isInvalid">
             </form>
 
-            <template v-else>
-                <div v-html="bodyHtml"></div>
+            <template v-show="! editing">
+                <div :id="uniqueName" v-html="bodyHtml" ref="bodyHtml"></div>
 
                 <div class="row">
                     <div class="col-4">
                         <div class="ml-auto">
-                            <button v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</button>
+                            <button v-if="authorize('modify', answer)" @click.prevent="onEdit" class="btn btn-sm btn-outline-info">Edit</button>
                             <button v-if="authorize('modify', answer)" @click.prevent="onDestroy" class="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
                     </div>
@@ -43,6 +45,8 @@
 <script>
     import ControlsComponent from '../components/Controls';
     import UserInfoComponent from '../components/UserInfo';
+    import MEditor from './MEditor';
+    import Prism from 'prismjs';
 
     export default {
         name: "Answer",
@@ -55,7 +59,7 @@
                 bodyHtml: this.answer.full_body_html_getter,
                 id: this.answer.id,
                 questionId: this.answer.question_id,
-                beforeEditCache: null
+                beforeEditCache: {}
             }
         },
 
@@ -66,10 +70,46 @@
 
             endpoint() {
                 return `/questions/${this.questionId}/answers/${this.id}`;
+            },
+
+            uniqueName() {
+                return `answer-${this.id}`;
             }
         },
 
         methods: {
+            setEditCache() {
+                this.beforeEditCache = {
+                    body: this.body
+                };
+            },
+
+            restoreFromEditCache() {
+                this.body = this.beforeEditCache.body;
+            },
+
+            highlight(id = '') {
+                let el;
+
+                if ( ! id)
+                    el = this.$refs.bodyHtml;
+                else
+                    el = document.getElementById(id);
+
+                console.log(el);
+                Prism.highlightAllUnder(el);
+            },
+
+            onEdit() {
+                this.setEditCache();
+                this.editing = true;
+            },
+
+            onCancel() {
+                this.restoreFromEditCache();
+                this.editing = false;
+            },
+
             onUpdate() {
                 axios.put(`/questions/${this.questionId}/answers/${this.id}`, {
                     body: this.body
@@ -79,6 +119,7 @@
                         this.bodyHtml = response.data.bodyHtml;
                         this.$toast.success(response.data.message, 'Success', {timeout: 3000});
                     })
+                    .then ( () => this.highlight())
                     .catch( (error) => {
                         this.$toast.error(error.response.data.message, 'Error', {timeout: 3000});
                     })
@@ -113,21 +154,12 @@
 
                 });
             },
-
-            edit() {
-                this.beforeEditCache = this.body;
-                this.editing = true;
-            },
-
-            cancel() {
-                this.body = this.beforeEditCache;
-                this.editing = false;
-            }
         },
 
         components: {
             ControlsComponent,
-            UserInfoComponent
+            UserInfoComponent,
+            MEditor
         }
     }
 </script>

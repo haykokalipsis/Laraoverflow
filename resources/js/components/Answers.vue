@@ -32,6 +32,7 @@
 <script>
     import Answer from './Answer';
     import NewAnswer from './NewAnswer';
+    import Prism from 'prismjs';
 
     export default {
         name: "Answers",
@@ -42,7 +43,8 @@
                 questionId: this.question.id,
                 count: this.question.answers_count,
                 answers: [],
-                nextUrl: null
+                nextUrl: null,
+                answerIds: [],
             }
         },
 
@@ -63,11 +65,20 @@
 
         methods: {
             fetch(endpoint) {
+                this.answerIds = [];
+
                 axios.get(endpoint)
                     .then( ({data}) => {
+                        this.answerIds = data.data.map( (a) => a.id);
                         this.answers.push(...data.data);
                         this.nextUrl = data.next_page_url;
                     })
+                    .then( () => {
+                        console.log(this.answerIds);
+                        this.answerIds.forEach( (id) => {
+                            this.highlight(`answer-${id}`);
+                        });
+                    });
             },
 
             remove(index) {
@@ -75,9 +86,24 @@
                 this.count--;
             },
 
+            highlight(id = '') {
+                let el;
+
+                if ( ! id)
+                    el = this.$refs.bodyHtml;
+                else
+                    el = document.getElementById(id);
+
+                console.log(el);
+                Prism.highlightAllUnder(el);
+            },
+
             add(answer) {
                 this.answers.push(answer);
-                this.count++
+                this.count++;
+                this.$nextTick( () => {
+                    this.highlight(`answer-${answer.id}`);
+                });
             }
         }
     }
